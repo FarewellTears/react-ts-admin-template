@@ -1,0 +1,10 @@
+{
+  // 保存时用eslint格式化代码
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  // 保存时自动进行代码修复
+  "editor.formatOnSave": true,
+  // 编辑器中默认格式化规则 "esbenp.prettier-vscode" 以项目下配置文件为准
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+}

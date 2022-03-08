@@ -1,0 +1,20 @@
+# 由当前目录向上查找，止于找到 `roor = true` 的文件
+root = true
+
+[*]
+# 缩进风格 space/tab
+indent_style = space
+# 缩进大小
+indent_size = 2
+# 字符编码格式
+charset = utf-8
+# 删除文件中换行符之前的所有空白字符
+trim_trailing_whitespace = true
+# 文件末尾添加空行
+insert_final_newline = true
+# 换行符方式  可选:lf/cr/crlf
+end_of_line = lf
+
+[*.md]
+trim_trailing_whitespace = false
+
