@@ -308,7 +308,7 @@ npm install typescript -D
 };
 ```
 
-具体`rules`规则配置详见[项目相关代码]()
+具体`rules`规则配置详见[项目相关代码](https://github.com/FarewellTears/react-ts-admin-template/blob/main/.eslintrc.js)
 
 
 
