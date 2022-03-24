@@ -1,8 +1,8 @@
-const obj = {
+const object = {
   hobby: 'books',
-  skill: (a) => {
+  skill: () => {
     console.loh('sleep');
   },
 };
 
-export default obj;
+export default object;

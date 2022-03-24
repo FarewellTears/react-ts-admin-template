@@ -1,7 +1,11 @@
 {
-  // 保存时用eslint格式化代码
+  // 使用 stylelint 自身的校验即可
+  "css.validate": false,
+  "less.validate": false,
+  // 保存时用eslint、stylelint格式化代码
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": true,
+    "source.fixAll.stylelint": true
   },
   // 保存时自动进行代码修复
   "editor.formatOnSave": true,

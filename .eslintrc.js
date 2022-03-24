@@ -6,12 +6,12 @@ module.exports = {
   },
   extends: [
     'eslint:recommended',
-    'plugin:react/recommended',
-    'plugin:@typescript-eslint/recommended',
     'airbnb',
     'airbnb/hooks',
+    'plugin:react/recommended',
     'plugin:unicorn/recommended',
     'plugin:promise/recommended',
+    'plugin:@typescript-eslint/recommended',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -21,7 +21,7 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  plugins: ['react', '@typescript-eslint', 'unicorn', 'promise'],
+  plugins: ['react', 'unicorn', 'promise', '@typescript-eslint', 'prettier'],
   settings: {
     'import/resolver': {
       node: {
@@ -38,5 +38,6 @@ module.exports = {
    */
   rules: {
     'unicorn/prefer-module': 'off',
+    'prettier/prettier': 'error',
   },
 };

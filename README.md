@@ -152,7 +152,7 @@ npm install prettier -D
 
 新建`.prettierignore`文件用于排除需要忽略`prettier`规则生效的文件
 
-```json
+```
 dist/
 node_modules/
 build/
@@ -309,6 +309,208 @@ npm install typescript -D
 ```
 
 具体`rules`规则配置详见[项目相关代码](https://github.com/FarewellTears/react-ts-admin-template/blob/main/.eslintrc.js)
+
+
+
+#### 2.4 StyleLint（统一样式代码风格）
+
+首先在项目中引入
+
+```bash
+npm install --save-dev stylelint stylelint-config-standard
+```
+
+安装社区部分优秀的插件：
+
+- `stylelint-config-rational-order`：用于按照以下顺序将相关属性声明进行分组来对它们进行排序
+
+  1. Positioning
+  2. Box Model
+  3. Typography
+  4. Visual
+  5. Animation
+  6. Misc
+
+  ```bash
+  npm install --save-dev stylelint-order stylelint-config-rational-order
+  ```
+
+  
+
+- `stylelint-declaration-block-no-ignored-properties`：用于提示存在的矛盾样式
+
+  ```bash
+  npm install stylelint-declaration-block-no-ignored-properties --save-dev
+  ```
+
+
+
+#### 2.5 lint 命令
+
+ `package.json` 的 `scripts` 中增加以下配置：
+
+```json
+{
+	scripts: {
+        "lint": "npm run lint-eslint && npm run lint-stylelint",
+        "lint-eslint": "eslint -c .eslintrc.js --ext .ts,.tsx,.js src",
+        "lint-stylelint": "stylelint --config .stylelintrc.js src/**/*.{less,css}"
+    }
+}
+```
+
+对`.less`单独处理
+
+```bash
+npm install --save-dev postcss-less
+```
+
+配置 `.stylelintrc.js` 文件
+
+```json
+{
+	customSyntax: 'postcss-less',
+	rules: {
+		//...
+	}
+}
+```
+
+
+
+#### 2.6 解决 ESLint、Stylelint 和 Prettier 的冲突
+
+安装插件 `eslint-config-prettier`，这个插件会禁用所有和 prettier 起冲突的规则：
+
+```bash
+npm install --save-dev eslint-config-prettier
+npm install --save-dev eslint-plugin-prettier
+```
+
+添加以下配置到 `.eslintrc.js` 的 `extends` 中：
+
+```json
+{
+  extends: [
+    // other configs ...
+   	'plugin:prettier/recommended',
+  ],
+  plugins: [
+    // other configs ... 
+    'prettier',
+  ],
+}
+```
+
+这里需要注意， `'prettier'` 及之后的配置要放到原来添加的配置的后面，这样才能让 `prettier` 禁用之后与其冲突的规则。
+
+`stylelint` 的冲突解决也是一样的，先安装插件 [stylelint-config-prettier](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2Fprettier%2Fstylelint-config-prettier) ：
+
+```bash
+npm install --save-dev stylelint-config-prettier
+```
+
+添加以下配置到 `.stylelintrc.js` 的 `extends` 中：
+
+```json
+{  
+	extends: [
+  	// other configs ...
+    'stylelint-config-prettier'
+  ]
+}
+```
+
+
+
+#### 2.7 lint-staged
+
+提交代码前对代码进行格式化，借助于`husky`提供提交前的钩子以及`lint-staged`格式化和校验
+
+```bash
+npm install husky lint-staged --save-dev
+```
+
+在 `package.json`配置如下
+
+```json
+{
+	"husky": {
+        "hooks": {
+          "pre-commit": "lint-staged",
+        }
+      },
+    "lint-staged": {
+        "*.{ts,tsx,js}": [
+            "eslint --config .eslintrc.js"
+        ],
+        "*.{css,less}": [
+            "stylelint --config .stylelintrc.js"
+        ],
+        "*.{ts,tsx,js,json,html,yml,css,less,md}": [
+            "prettier --write"
+        ]
+    },
+}
+```
+
+
+
+#### 2.8 commitlint + changelog（未经验证）
+
+安装 `commitlint` 相关依赖：
+
+```bash
+npm install @commitlint/cli @commitlint/config-conventional --save-dev
+```
+
+在根目录新建文件 `.commitlintrc.js` ，配置如下
+
+```javascript
+module.exports = {
+  extends: ['@commitlint/config-conventional'],
+};
+```
+
+然后在`package.json` 的 `husky` 配置，增加一个钩子：
+
+```json
+{
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint --config .commitlintrc.js -E HUSKY_GIT_PARAMS"
+    }
+  },
+}
+复制代码
+```
+
+`-E HUSKY_GIT_PARAMS` 简单理解就是会拿到 message 后 commitlint 进行 lint 校验
+
+安装`changelog`依赖：
+
+```bash
+npm install conventional-changelog-cli -D
+```
+
+在 `package.json` 的 `scripts` 下增加一个命令：
+
+```json
+{
+  "scripts": {
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
+  },
+}
+```
+
+之后就可以通过 `npm run changelog` 生成 angular 风格的`changelog`，需要注意的是，上面这条命令产生的`changelog`是基于上次 tag 版本之后的变更（feat、fix 等等）所产生的。
+
+
+
+
+
+
 
 
 

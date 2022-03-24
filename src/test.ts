@@ -1,5 +1,6 @@
-import obj from './index';
+const add = (a, b) => {
+  console.log(a + b);
+  return a + b;
+};
 
-function test() { };
-
-export default test;
+export default add;

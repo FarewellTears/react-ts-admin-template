@@ -3,7 +3,12 @@
   "version": "1.0.0",
   "description": "构建搭建 React+Typescript 项目模板",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "lint": "npm run lint-eslint && npm run lint-stylelint",
+    "lint-eslint": "eslint -c .eslintrc.js --ext .ts,.tsx,.js src",
+    "lint-stylelint": "stylelint --config .stylelintrc.js src/**/*.{less,css}",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/FarewellTears/react-ts-admin-template.git"
@@ -16,21 +21,52 @@
   },
   "homepage": "https://github.com/FarewellTears/react-ts-admin-template#readme",
   "devDependencies": {
+    "@commitlint/cli": "^16.2.3",
+    "@commitlint/config-conventional": "^16.2.1",
     "@typescript-eslint/eslint-plugin": "^5.13.0",
     "@typescript-eslint/parser": "^5.13.0",
-    "eslint": "^8.2.0",
+    "conventional-changelog-cli": "^2.2.2",
+    "eslint": "^8.8.0",
     "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-import-resolver-typescript": "^2.5.0",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-plugin-unicorn": "^41.0.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.7",
+    "postcss-less": "^6.0.0",
     "prettier": "^2.5.1",
+    "stylelint": "^14.6.0",
+    "stylelint-config-prettier": "^9.0.3",
+    "stylelint-config-rational-order": "^0.1.2",
+    "stylelint-config-standard": "^25.0.0",
+    "stylelint-declaration-block-no-ignored-properties": "^2.5.0",
+    "stylelint-order": "^5.0.0",
     "typescript": "^4.6.2"
   },
   "dependencies": {
     "react": "^17.0.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint --config .commitlintrc.js -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js}": [
+      "eslint --config .eslintrc.js"
+    ],
+    "*.{css,less}": [
+      "stylelint --config .stylelintrc.js"
+    ],
+    "*.{ts,tsx,js,json,html,yml,css,less,md}": [
+      "prettier --write"
+    ]
   }
 }
